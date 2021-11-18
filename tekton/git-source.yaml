@@ -5,7 +5,7 @@ metadata:
 spec:
   params:
   - name: revision
-    value: master
+    value: main
   - name: url
     value: https://github.com/jtarte/liberty_tekton_sample
   type: git

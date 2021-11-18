@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: liberty-build
+spec:
+  resources:
+    - name: git-source
+      type: git
+    - name: docker-image
+      type: image
+  tasks:
+    - name: build
+      taskRef:
+        name: mybuildah
+        kind: Task
+      resources:
+        inputs:
+          - name: git-source
+            resource: git-source
+        outputs:
+          - name: target-image
+            resource: docker-image

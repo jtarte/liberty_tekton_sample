@@ -1,0 +1,29 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mybuildah
+spec:
+  params: 
+    - name: DOCKERFILE
+      description: Path to the Dockerfile to build.
+      default: ./Dockerfile
+  resources:
+    inputs:
+      - name: git-source
+        type: git 
+    outputs:
+      - name: target-image
+        type: image
+  steps:
+  - name: build-and-push
+    image: quay.io/buildah/stable:latest
+    workingDir: /workspace/git-source
+    command: ["/bin/bash"]
+    args:
+      - -c
+      - | 
+        ls -al
+        echo Build the image
+        buildah bud -f $(inputs.params.DOCKERFILE) -t $(resources.outputs.target-image.url)
+        echo Push the image
+        buildah push $(resources.outputs.target-image.url) docker://docker.io/$(resources.outputs.target-image.url)

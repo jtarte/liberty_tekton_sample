@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: liberty-build-run
+  namespace: liberty
+  labels:
+    tekton.dev/pipeline: liberty-build
+spec:
+  pipelineRef:
+    name: liberty-build
+  resources:
+    - name: git-source
+      resourceRef:
+        name: git-source
+    - name: docker-image
+      resourceRef:
+        name: docker-image
