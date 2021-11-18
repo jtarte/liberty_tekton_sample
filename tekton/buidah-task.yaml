@@ -18,12 +18,18 @@ spec:
   - name: build-and-push
     image: quay.io/buildah/stable:latest
     workingDir: /workspace/git-source
+    volumeMounts:
+      - mountPath: /var/lib/containers
+        name: varlibcontainers
     command: ["/bin/bash"]
     args:
       - -c
       - | 
         ls -al
         echo Build the image
-        buildah bud -f $(inputs.params.DOCKERFILE) -t $(resources.outputs.target-image.url)
+        buildah bud --storage-driver=vfs -f $(inputs.params.DOCKERFILE) -t $(resources.outputs.target-image.url)
         echo Push the image
         buildah push $(resources.outputs.target-image.url) docker://docker.io/$(resources.outputs.target-image.url)
+  volumes:
+    - emptyDir: {}
+      name: varlibcontainers
