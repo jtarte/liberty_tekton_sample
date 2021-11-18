@@ -8,7 +8,7 @@ spec:
   applicationName: modresorts
   expose: true
   route:
-    path: resorts/
+    path: /resorts
   pullPolicy: IfNotPresent
   replicas: 1
   version: '2.1'

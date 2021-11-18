@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: deploy-app
+spec:
+  resources:
+    inputs:
+      - name: git-source
+        type: git 
+    outputs:
+      - name: target-image
+        type: image
+  steps:
+    - name: oc-dep
+      workingDir: /workspace/git-source
+      image: quay.io/openshift/origin-cli:latest
+      command: ["/bin/bash", "-c"]
+      args:
+        - oc apply -f kube/application.yaml

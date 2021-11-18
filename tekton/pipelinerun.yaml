@@ -4,10 +4,10 @@ metadata:
   name: liberty-build-run
   namespace: liberty
   labels:
-    tekton.dev/pipeline: liberty-build
+    tekton.dev/pipeline: liberty-build-deploy
 spec:
   pipelineRef:
-    name: liberty-build
+    name: liberty-build-deploy
   resources:
     - name: git-source
       resourceRef:
