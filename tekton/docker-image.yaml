@@ -5,5 +5,5 @@ metadata:
 spec:
   params:
   - name: url
-    value: jtarte/app-modresort:2.1
+    value: docker.io/jtarte/app-modresort:2.1
   type: image

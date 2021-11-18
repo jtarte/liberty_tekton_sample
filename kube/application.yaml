@@ -1,0 +1,14 @@
+apiVersion: openliberty.io/v1beta1
+kind: OpenLibertyApplication
+metadata:
+  name: modresorts
+  namespace: liberty
+spec:
+  applicationImage: 'docker.io/jtarte/app-modresort:2.1'
+  applicationName: modresorts
+  expose: true
+  route:
+    path: resorts/
+  pullPolicy: IfNotPresent
+  replicas: 1
+  version: '2.1'
