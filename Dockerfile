@@ -1,11 +1,11 @@
 # Start with OL runtime.
-FROM maven:3.6.0-jdk-8-slim AS build-stage
+FROM docker.io/maven:3.6.0-jdk-8-slim AS build-stage
 COPY . /project
 WORKDIR /project
 RUN mvn clean package
 
 
-FROM openliberty/open-liberty:full-java11-openj9-ubi
+FROM docker.io/openliberty/open-liberty:full-java11-openj9-ubi
 
 RUN ls -aR / | grep war
 
