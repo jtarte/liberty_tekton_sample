@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: liberty-modresorts
+  namespace: liberty
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: liberty
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: kube
+    repoURL: https://github.com/jtarte/liberty_tekton_sample
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: liberty-build-run
+  generateName: liberty-build-run-
   namespace: liberty
   labels:
     tekton.dev/pipeline: liberty-build-deploy
