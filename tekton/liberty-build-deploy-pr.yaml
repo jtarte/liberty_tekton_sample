@@ -8,10 +8,25 @@ metadata:
 spec:
   pipelineRef:
     name: liberty-build-deploy
-  resources:
-    - name: git-source
-      resourceRef:
-        name: git-source
-    - name: docker-image
-      resourceRef:
-        name: docker-image
+  serviceAccountName: liberty-pipeline
+  params:
+    - name: script
+      value: oc apply -f ./kube/application.yaml
+    - name: git_url
+      value: https://github.com/jtarte/liberty_tekton_sample
+    - name: branch
+      value: main
+    - name: image
+      value: docker.io/jtarte/app-modresort
+    - name: tag
+      value: "2.1"
+  workspaces:
+    - name: workspace 
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce # access mode may affect how you can use this volume in parallel tasks
+          resources:
+            requests:
+              storage: 1Gi
+  

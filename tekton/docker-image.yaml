@@ -1,9 +1,0 @@
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: docker-image
-spec:
-  params:
-  - name: url
-    value: docker.io/jtarte/app-modresort:2.1
-  type: image

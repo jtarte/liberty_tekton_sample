@@ -1,13 +1,13 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: liberty-build-run-
+  generateName: liberty-build-gitops-pr-
   namespace: liberty
   labels:
     tekton.dev/pipeline: liberty-build-deploy
 spec:
   pipelineRef:
-    name: liberty-build
+    name: liberty-build-gitops
   serviceAccountName: liberty-pipeline
   params: 
     - name: git_url

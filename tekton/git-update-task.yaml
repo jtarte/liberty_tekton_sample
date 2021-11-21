@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-update
+spec:
+  workspaces:
+    - name: source
+  params:
+    - name: revision
+      description: "branch of the git to be updated" 
+      type: string
+    - name: tag
+      description: "the verison of the image that will be replace on the git file"
+      type: string
+    - name: dep_file
+      description: "the name of the deployment file to be updated"
+      type: string
+  steps:
+   - name: push-changes-gitops
+     image: alpine/git:v2.26.2
+     workingDir: $(workspaces.source.path)
+     script: |
+        #!/bin/sh
+        set -e
+        git config --global user.email "jerome.tarte@fr.ibm.com"
+        git config --global user.name "tekton"
+        
+        sed -i "s/2.1/$(params.tag)/g" "$(params.dep_file)"
+        cat ./kube/application.yaml 
+        
+        git add -u
+        git commit -m "[tekton] updating deployment"
+        git push origin HEAD:$(params.revision)

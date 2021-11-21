@@ -1,17 +1,23 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: liberty-build
+  name: liberty-build-gitops
 spec:
   workspaces:
     - name: workspace
   params:
     - name: git_url
-      description: Git url
+      description: "Git url"
     - name: branch
-      description: Revision to use
+      description: "Revision to use"
     - name: image
+      description: "the image name manipulated by this pipeline"
     - name: tag
+      description: "the verison of the image"
+    - name: dep_file
+      description: "the name of the deployment file to be updated"
+      default: ./kube/application.yaml
+      type: string
   tasks:
     - name: checkout
       taskRef:
@@ -39,3 +45,19 @@ spec:
       workspaces:
        - name: source
          workspace: workspace
+    - name: git-update
+      runAfter:
+        - build
+      taskRef:
+        name: git-update
+        kind: Task
+      workspaces:
+        - name: source
+          workspace: workspace
+      params:
+        - name: revision
+          value: $(params.branch)
+        - name: tag 
+          value: $(params.tag)
+        - name: dep_file
+          value: $(params.dep_file)

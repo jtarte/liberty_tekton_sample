@@ -3,33 +3,54 @@ kind: Pipeline
 metadata:
   name: liberty-build-deploy
 spec:
-  resources:
-    - name: git-source
-      type: git
-    - name: docker-image
-      type: image
+  workspaces:
+    - name: workspace
+  params:
+    - name: script 
+      description: "the yaml script used to deploy the application"
+      type: string
+    - name: git_url
+      description: Git url
+    - name: branch
+      description: Revision to use
+    - name: image
+    - name: tag
   tasks:
-    - name: build
+    - name: checkout
       taskRef:
-        name: mybuildah
-        kind: Task
-      resources:
-        inputs:
-          - name: git-source
-            resource: git-source
-        outputs:
-          - name: target-image
-            resource: docker-image
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: $(params.git_url)
+        - name: revision
+          value: $(params.branch)
+        - name: deleteExisting
+          value: 'true'
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: build
+      runAfter:
+        - checkout
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: $(params.image):$(params.tag)
+      workspaces:
+       - name: source
+         workspace: workspace
     - name: deploy
       taskRef:
-        name: deploy-app
-        kind: Task
+        name: openshift-client
+        kind: ClusterTask
+      workspaces:
+        - name: manifest-dir
+          workspace: workspace
       runAfter:
         - build
-      resources:
-        inputs:
-          - name: git-source
-            resource: git-source
-        outputs:
-          - name: target-image
-            resource: docker-image
+      params:
+        - name: SCRIPT
+          value: $(params.script)   
