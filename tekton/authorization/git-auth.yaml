@@ -1,0 +1,11 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: git-auth
+  namespace: liberty
+  annotations:
+    tekton.dev/git-0: 'https://github.com'
+stringData:
+  password: <your github token>
+  username: <your user>
+type: kubernetes.io/basic-auth
