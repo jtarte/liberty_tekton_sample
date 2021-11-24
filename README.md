@@ -1,60 +1,43 @@
-# liberty_tekton_sample
+# Deploy a Liberty application with CICD toolchains
 
+![CI/CD with tekton and Argocd](./img/CICD-tekton-argocd.png)
+
+## Supporting application
 
 The java web application that is used to support the demonstration is the Application Moderinisation Resorts. You could find the original application at this [github repository](https://github.com/ibm/appmod-resorts).
 
-
-## Prerequisites
-
-* An OpenShift cluster (the tests were made on a OCP 4.7)
-* Red Hat Pipelines operator is deployed on the the OCP cluster with `all namesapces` scope.
-* Access to an image registry. (For the test, I used docker hub) 
-
-
 ## Prepare 
 
-Clone the git repo on your laptop 
+Clone the git repo on your laptop. 
+``` 
+git clone git@github.com:jtarte/liberty_tekton_sample.git
+```
 
+all the commands that are given in this sample demo suppose that you are inside the cloned repository.
+
+Move into the cloned repository.
+```
+cd liberty_tekton_sample.git
+```
 
 Create the namespace that will be used for the demo
 ```
 oc new-project liberty
 ```
 
-For this demo, all the work is done inside the same namespace. It is simpler.  But if you are willing to separe the pipeline work from the apllication, you may use different namespace. But in this case, yu may have to configure some service account to ensure resource deployment. (cf [First pipeline with Tekton on IBM Cloud Pak for Applications](https://medium.com/@jerome_tarte/first-pipeline-with-tekton-on-ibm-cloud-pak-for-application-e82ea7b8a6b1) article could give some informations on this topic)
+Before to start the deployment of the demo, you may have to prepare your environment. You could find instructions on this [page](./doc/prereq.md)
 
-Create a secret with the credentials on the image registry where the image will be pushed. In my case, it is the docker hub using an access token.
-```
-oc create secret generic dockerhub-secret --from-literal=user=<your user> --from-literal=token=<your token>
-```
+## Choice your deploiement methods
 
-Create the docker image pipelineresource to define your target image
-```
-apiVersion: tekton.dev/v1alpha1
-kind: PipelineResource
-metadata:
-  name: docker-image
-spec:
-  params:
-  - name: url
-    value: docker.io/jtarte/app-modresort:2.1
-  type: image
-```
-You may change the value of url param to reflect your image name and your image registry. 
+The demo provides two way to deploy the Liberty application.
 
-Deploy it on the cluster 
-```
-oc apply -f tekton/docker-image.yaml
-```
+The first is based only on tekton pipelines. The CI and the CD are done inside the pipeline via Tekton task. The instruction are [here](./doc/cicd-tekton.md)
 
+The second is based on tekton and argocd. The CI is delivered by tekton pipeline. The CD ensures the deployment of the application by leveraging gitops approach. The gitops operation are done by argocd.The instruction are [here](./doc/cicd-tekton-argocd.md)
 
+Tekton is delivered by Red Hat pipelines.
 
-
-
-
-
-
-
+ArgoCD is delivered by Red Hat Gitops. 
 
 ## Reference 
 
