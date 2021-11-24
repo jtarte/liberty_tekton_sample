@@ -16,7 +16,7 @@ The pipeline uses:
 * `buildah.` It builds the application, constructs adocker image with the application and pushes it on the target registry.
 * `oc-client`. It execute the deployement file to ensure the deployment of the application. 
 
-The pipeline use the cluster task and provide to them the workspace and params that are need for the execution.
+The pipeline uses the cluster tasks and provides to them the workspace and params that are need for the execution.
 
 The pipeline loolks [like](../tekton/liberty-build-deploy-pipeline.yaml) :
 ```
@@ -117,20 +117,20 @@ spec:
               storage: 1Gi
 ```
 
-The `PipelineRun` resource defiens the execution paramters like:
+The `PipelineRun` resource defines the execution paramters like:
 
 * The git repository where the application source are located.
 * The name of the target image.
 * The tag of the image. It is the version of te application.
 * The script used for the application deployment (yaml of `Deployment`).
-* The workspace. a pv that is used to store inforamtion between task. 
+* The workspace. A pvc that is used to store inforamtion between task. You could use a storage class if you have one on your cluster. 
 
 To launch the execution of the pipeline, use the following command:
 ```
 oc create ./tekton/liberty-build-deploy-pr.yaml
 ```
 
-Wait the end of th epipeline excution:
+Wait the end of the pipeline excution:
 ```
 oc get pipelinerun -n liberty
 ```
@@ -147,4 +147,4 @@ You could use the route into a browser to access the application
 
 ## Conclusion
 
-This demo shows hows tekton (Red hat pipelines) could be used to setup a CI/CD toolchain to deploy a liberty application. 
+This demo shows how tekton (Red hat pipelines) could be used to setup a CI/CD toolchain to deploy a liberty application. 
