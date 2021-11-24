@@ -12,9 +12,9 @@ All the tasks that are included in the pipelines are provided by the platform as
 
 The pipeline uses:
 
-* git-clone. It clones the git repository into the pipeline workspace. 
-* buildah. It builds the application, constructs adocker image with the application and pushes it on the target registry.
-* oc-client. It execute the deployement file to ensure the deployment of the application. 
+* `git-clone`. It clones the git repository into the pipeline workspace. 
+* `buildah.` It builds the application, constructs adocker image with the application and pushes it on the target registry.
+* `oc-client`. It execute the deployement file to ensure the deployment of the application. 
 
 The pipeline use the cluster task and provide to them the workspace and params that are need for the execution.
 
