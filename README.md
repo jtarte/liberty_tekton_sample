@@ -36,9 +36,9 @@ The first is based only on tekton pipelines. The CI and the CD are done inside t
 
 The second is based on tekton and argocd. The CI is delivered by tekton pipeline. The CD ensures the deployment of the application by leveraging gitops approach. The gitops operation are done by argocd.The instruction are [here](./doc/cicd-tekton-argocd.md)
 
-Tekton is delivered by Red Hat pipelines.
+Tekton is delivered by Red Hat OpenShift Pipelines.
 
-ArgoCD is delivered by Red Hat Gitops. 
+ArgoCD is delivered by Red Hat OpenShift Gitops. 
 
 ## Reference 
 
