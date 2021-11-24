@@ -3,7 +3,7 @@
 ![CI/CD with tekton and Argocd](./img/CICD-tekton-argocd.png)
 
 * Option A: [CI/CD with tekton](./doc/cicd-tekton.md)
-* Option B(represented by the diargram above): [CI with Tekton and CD with ArgoCD](./doc/cicd-tekton-argocd.md)
+* Option B(represented by the diagram above): [CI with Tekton and CD with ArgoCD](./doc/cicd-tekton-argocd.md)
 
 ## Supporting application
 
