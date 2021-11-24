@@ -4,23 +4,23 @@ An OpenShift cluster is needed to run the demonstration. The tests were made on 
 
 ## Operators
 
-The follwoign operators are needed for the demo. 
-* Red Hat Pipelines operator is deployed on the the OCP cluster with `all namesapces` scope.
-* Red Hat Gitops operator is deployed on the the OCP cluster with `all namesapces` scope (gitops scenario)
-* Open liberty Application operator is deployed on the the OCP cluster with `all namesapces` scope.
+The following operators are needed for the demonstration. 
+* Red Hat OpenShift Pipelines operator is deployed on the the OCP cluster with `all namespaces` scope.
+* Red Hat OpenShift Gitops operator is deployed on the the OCP cluster with `all namespaces` scope (gitops scenario).
+* Open liberty Application operator is deployed on the the OCP cluster with `all namespaces` scope.
 
 ![operators](../img/operators.png)
 
 
 ## Namespace
 
-The demo use only one namespace, `liberty`. Everythings, except gitops resources, are deployed in this namespace
+The demo uses only one namespace, `liberty`. Everythings, except gitops resources, are deployed in this namespace.
 
 But it is a choice made here to simplify the demo. You may change the namespace name or separate pipeline resources and application into different namespaces. Depending of your choice, you must adjust the rolebinding to reflect your choice (allowing the pipeline to interact with other namespace ...)
 
 ## Authentication
 
-As the pipeline interacts with external systems (docker hub, github), you should provide authentication information. These information are stored into secret.
+As the pipeline interacts with external systems (docker hub, github), you should provide authentication information. These information are stored into secrets.
 
 ### Create the docker hub secret
 
@@ -29,11 +29,11 @@ You could use an `oc create secret` command.
 oc create secret docker-registry dockerhub-token --docker-server=docker.io --docker-username=<your user> --docker-password=<your token> --docker-email=<your eamailj>
 ```
 
-You could refer [here](https://docs.docker.com/docker-hub/access-tokens/) to know how to generate ana ccess tocken to docker hub.
+You could refer [here](https://docs.docker.com/docker-hub/access-tokens/) to know how to generate an access tocken to docker hub.
 
 ### Create the github secret (gitops pipeline)
 
-You could use either an `oc create secret` command ,either use the [secret template](../tekton/authorization/git-auth.yaml)
+You could use either a `oc create secret` command ,either use the [secret template](../tekton/authorization/git-auth.yaml)
 ```
 oc create secret generic dockerhub-secret --from-literal=user=<your user> --from-literal=token=<your token>
 ```
@@ -56,7 +56,7 @@ Then, you could apply the file with an `oc apply` command.
 
 ### Create a serviceaccount
 
-To be executed, a `pipelinerun` uses a service account. In order to be able to access remote systems, the service account should know the credential of the remote systems. In its defintion, the reference of secrets that were created previusly are added. 
+To be executed, a `pipelinerun` uses a service account. In order to be able to access remote systems, the service account should know the credentials of the remote systems. In its defintion, the reference of secrets that were created previously are added. 
 
 To create the service account, you could use the [template](../tekton/authorization/liberty-pipeline-sa.yaml). 
 ```
