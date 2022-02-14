@@ -11,4 +11,4 @@ spec:
     path: /resorts
   pullPolicy: IfNotPresent
   replicas: 1
-  version: '2.1'
+  applicationVersion: '2.1'
