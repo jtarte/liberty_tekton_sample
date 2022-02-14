@@ -4,11 +4,11 @@ metadata:
   name: modresorts
   namespace: liberty
 spec:
-  applicationImage: 'docker.io/jtarte/app-modresort:2.1'
+  applicationImage: 'docker.io/jtarte/app-modresort:2.2'
   applicationName: modresorts
   expose: true
   route:
     path: /resorts
   pullPolicy: IfNotPresent
   replicas: 1
-  applicationVersion: '2.1'
+  applicationVersion: '2.2'
